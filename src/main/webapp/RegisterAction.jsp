@@ -11,6 +11,7 @@
 <jsp:setProperty name="product" property="company" />
 <jsp:setProperty name="product" property="img" />
 <jsp:setProperty name="product" property="info" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +22,7 @@
  <%
         if(product.getNo() == null || product.getName() == null || product.getCategory() == null ||
         	product.getPrice() == null || product.getCompany() == null ||
-           product.getImg() == null || product.getInfo() == null) {
+           product.getImg() == null || product.getInfo() == null) { 
             PrintWriter script = response.getWriter();
             script.println("<script>");
             script.println("alert('입력이 안된 사항이 있습니다.')");
@@ -41,7 +42,7 @@
                 session.setAttribute("no", product.getNo());
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
-                script.println("location.href= 'adminmenu.jsp'");
+                script.println("location.href= 'productManage.jsp'");
                 script.println("</script>");
                 }
         }

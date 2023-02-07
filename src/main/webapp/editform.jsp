@@ -23,6 +23,7 @@ String dbname = null;
 String dbcategory = null;
 String dbprice = null;
 String dbcompany = null;
+int dbamount = 0;
 String dbimg = null;
 String dbinfo = null;
 
@@ -41,6 +42,7 @@ try{
 		dbcategory = rs.getString("category");
 		dbprice = rs.getString("price");
 		dbcompany = rs.getString("company");
+		dbamount = rs.getInt("amount");
 		dbimg = rs.getString("img");
 		dbinfo = rs.getString("info");
 	}
@@ -76,6 +78,10 @@ try{
 <td><input type="text" name="company" size="20" value="<%=dbcompany %>"></td>
 <tr>
 <tr>
+<td>상품 수량</td>
+<td><input type="number" name="amount" size="20" value="<%=dbamount %>"></td>
+<tr>
+<tr>
 <td>상품 이미지</td>
 <td><input type="file" name="img" size="20" value="<%=dbimg %>"></td>
 <tr>
@@ -88,5 +94,6 @@ try{
 </tr>
 </table>
 </form>
+
 </body>
 </html>

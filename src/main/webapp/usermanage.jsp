@@ -34,14 +34,7 @@ try{
 		</div>
 	</div>
 	
-	<form method="post" align="right">
-	<select name="sort">
-	<option value="1">가격</option>
-	<option value="2">분류</option>
-	<option value="3">회사</option>
-	</select>
-	<input type="submit" class="btn btn-primary" value="검색">
-	</form>
+	
 <table border="1" cellspacing="0" align="center">
 <tr>
 <td>고객 아이디</td>

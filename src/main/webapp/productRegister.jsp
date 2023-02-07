@@ -11,8 +11,6 @@
 </head>
 <body>
 
-<%-- <jsp:include page="/adminmenu.jsp" flush="false"/> --%>
-	<%-- <jsp:include page="menu.jsp"/ --%>
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">

@@ -20,9 +20,11 @@
         int result = userDAO.login(user.getUserID(), user.getUserPassword());
         if (result == 1){
             session.setAttribute("userID",user.getUserID()); 
+            session.setAttribute("userPassword",user.getUserPassword()); 
             PrintWriter script = response.getWriter();
             script.println("<script>");
-            script.println("location.href = 'main.jsp'");
+            response.sendRedirect("main.jsp");
+            /* script.println("location.href = 'main.jsp'"); */
             script.println("</script>");
         } 
         else if (result == 0){

@@ -10,6 +10,8 @@
 </head>
 <body>
  <%
+ 
+ 		request.setCharacterEncoding("utf-8");
         String userID = null;
         if(session.getAttribute("userID") != null )
         {
@@ -24,13 +26,16 @@
             script.println("</script>");
                 }
                 else {
-                    PrintWriter script = response.getWriter();
-                    script.println("<script>");
-                    script.println("location.href= 'addCart.jsp'");
-                    script.println("</script>");
+                	String productNo = request.getParameter("proNo");
+                	String productCompany = request.getParameter("proCompany");
+%>
+ 					<jsp:forward page="addCart.jsp">
+					<jsp:param name = "proNo" value = "<%=productNo %>"/>
+					<jsp:param name = "proCompany" value = "<%=productCompany %>"/>
+					</jsp:forward>
+<%                    
+                    
                     }
-    %>
-    
-    장바구니
+%>
 </body>
 </html>

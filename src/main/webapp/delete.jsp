@@ -22,6 +22,11 @@ try{
 	pstmt = conn.prepareStatement("DELETE FROM product WHERE no=?");
 	pstmt.setString(1,no);
 	pstmt.executeUpdate();
+	%>
+	
+	<jsp:forward page="productManage.jsp"></jsp:forward>>
+	
+<%
 }finally{
 	if(pstmt != null) try{pstmt.close();} catch(SQLException ex) {}
 	if(conn != null) try{pstmt.close();} catch(SQLException ex) {}

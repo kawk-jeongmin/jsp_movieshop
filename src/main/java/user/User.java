@@ -1,7 +1,5 @@
 package user;
 
-import product.CartDAO;
-
 public class User {
 	private String userID;
 	private String userPassword;
@@ -13,31 +11,6 @@ public class User {
 	private String userHousecode;
 	private String userDetailAdress;
 	
-	private CartDAO cart;
-	
-	public CartDAO getCart() {
-		if(cart == null)
-			cart = new CartDAO();
-		return cart;
-	}
-	
-	public User() {
-		super();
-	}
-	
-	public User(String userID, String userPassword, String userName) {
-		super();
-		this.userID = userID;
-		this.userPassword = userPassword;
-		this.userName = userName;
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return "User [userID=" + userID + ", userPassword=" + userPassword + ", userName=" + userName
-				+  ", cart=" + cart + "]";	}
-
 	public String getUserID() {
 		return userID;
 	}

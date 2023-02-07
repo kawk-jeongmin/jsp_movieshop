@@ -22,6 +22,9 @@ try{
 	pstmt = conn.prepareStatement("DELETE FROM user WHERE userID=?");
 	pstmt.setString(1,userID);
 	pstmt.executeUpdate();
+	%>
+	<jsp:forward page="usermanage.jsp"></jsp:forward>>
+	<%
 }finally{
 	if(pstmt != null) try{pstmt.close();} catch(SQLException ex) {}
 	if(conn != null) try{pstmt.close();} catch(SQLException ex) {}

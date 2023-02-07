@@ -4,7 +4,7 @@
 <%@ page import="java.io.PrintWriter"%>
 <% request.setCharacterEncoding("UTF-8"); %>
 
-<jsp:useBean id="admin" class="admin.Admin" scope="page"></jsp:useBean>
+<jsp:useBean id="admin" class="admin.Admin" scope="page"></jsp:useBean> 
 <jsp:setProperty name="admin" property="adminID" />
 <jsp:setProperty name="admin" property="adminPW" />
 <!DOCTYPE html>

@@ -25,7 +25,7 @@ try{
 	String SQL = "SELECT * FROM product";
 	rs = stmt.executeQuery(SQL);
 %>
-<%-- <jsp:include page="adminmenu.jsp" flush="false"/> --%>
+
 <div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">
@@ -49,6 +49,7 @@ try{
 <td>상품 분류</td>
 <td>상품 가격</td>
 <td>상품 회사</td>
+<td>상품 수량</td>
 <td>상품 이미지</td>
 <td>상품 상세 정보</td>
 <td>상품 수정</td>
@@ -71,7 +72,6 @@ while(rs.next()){
 }
 %>
 </table>
-<jsp:include page="productSort.jsp"/>
 <%
 rs.close();
 stmt.close();

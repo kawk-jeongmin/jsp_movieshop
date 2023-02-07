@@ -2,6 +2,7 @@ package user;
 
 import java.sql.*;
 import java.util.*;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 public class UserDAO {
 	
@@ -20,6 +21,10 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 	}
+	
+//	public static UserDAO getInstance() {
+//		return instance;
+//	}
 	
 	public int login(String userID, String userPassword) {
 		String SQL = "SELECT userPassword FROM user WHERE userID = ?";
@@ -61,60 +66,25 @@ public class UserDAO {
 		return -1; //데이터베이스 오류
 	}
 	
-	public User findUserById (String userID) throws SQLException{
-		User user = null;
-		Connection conn = null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		try {
-			String sql = "select userName from user where userID = ?";
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, userID);
-			rs=pstmt.executeQuery();
-			if(rs.next())
-				user = new User(userID,null,rs.getString(1));
-		}finally {
-			if(pstmt != null) try{pstmt.close();} catch(SQLException ex) {}
-			if(conn != null) try{pstmt.close();} catch(SQLException ex) {}
-		}
-		return user;
-	}
-	
-	public ArrayList<String> getAddressKind() throws SQLException{
-		ArrayList<String> list=new ArrayList<String>();
-		Connection conn=null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		try {
-			String sql="select distinct(userAdress) from user";
-			pstmt=conn.prepareStatement(sql);
-			rs=pstmt.executeQuery();
-			while(rs.next())
-				list.add(rs.getString(1));
-		}finally {
-			if(pstmt != null) try{pstmt.close();} catch(SQLException ex) {}
-			if(conn != null) try{pstmt.close();} catch(SQLException ex) {}
-		}
-		return list;
-	}
-	
-	public int getMemberTotalCount() throws SQLException {
-		Connection conn=null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		int count=0;
-		try {
-			String sql="select count(*) from user";
-			pstmt=conn.prepareStatement(sql);
-			rs=pstmt.executeQuery();
-			if(rs.next())
-				count=rs.getInt(1);
-		}finally {
-			if(pstmt != null) try{pstmt.close();} catch(SQLException ex) {}
-			if(conn != null) try{pstmt.close();} catch(SQLException ex) {}
-		}
-		return count;
-	}
 
+//	public int findUserBYID(String userID, String userName) {
+//		String SQL = "SELECT userName FROM user WHERE userID = ?";
+//		try {
+//			pstmt = conn.prepareStatement(SQL);
+//			pstmt.setString(1, userID);
+//			rs = pstmt.executeQuery();
+//			if(rs.next()) {
+//				if(rs.getString(1).equals(userName))
+//					return 1; //로그인 성공
+//				else
+//					return 0; //비밀번호 불일치
+//			}
+//			return -1; //아이디 없음
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return -2; //데이터베이스 오류
+//	}
 
 }

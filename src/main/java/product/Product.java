@@ -17,7 +17,6 @@ public class Product {
 		this.no = no;
 		this.name = name;
 	}
-	
 	public String getNo() {
 		return no;
 	}
@@ -60,6 +59,7 @@ public class Product {
 	public void setInfo(String info) {
 		this.info = info;
 	}
+	
 	
 	
 	

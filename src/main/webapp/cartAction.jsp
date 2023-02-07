@@ -1,71 +1,89 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%> 
+<%@page import="cart.*"%>
+<%@page import="product.*"%>
+<%@page import="user.*"%>
+<%@ page import="java.sql.*" %>
+<%@page import="java.util.*"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width", initial-scale="1" >  <!-- 반응형 웹에 사용하는 메타태그 -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/custom.css">
 <title>Insert title here</title>
 </head>
 <body>
-<<script type="text/javascript">
-	function deleteItemBtn() {
-		if(confirm("장바구니에서 해당 상품을 삭제하시겠습니까?")){
-			//javascript form submit
-			document.getElementById("deleteItemForm").submit();
-			//command(deleteCart)와 itemNo(${item.itemNo})이 front로 제출된다.
-		} else {
-			return;
-		}
-	}
-</script>
+<jsp:include page="/menu.jsp" flush="false"/>
+<%
+request.setCharacterEncoding("UTF-8");
+String userID = session.getAttribute("userID").toString();
+String no = (String)session.getAttribute("no");
+String newPrice = null;
+int newQnt = 0;
+int total = 0;
+%>
+<h3><%=userID %>님의 장바구니 입니다</h3>
+<hr>
+<%
+Connection conn= null;
+ResultSet rs = null;
+PreparedStatement pstmt = null;
 
-<c:choose>
+String dbURL = "jdbc:mysql://localhost:3306/SHOP?serverTimezone=UTC";
+String dbID = "root";
+String dbPassword = "Kjm0408^^";
+Class.forName("com.mysql.cj.jdbc.Driver");
 
-	<c:when test="${empty sessionScope.User.cart.itemList}">
-		장바구니에 담긴 상품이 없습니다.
-	</c:when>
+int count=0;
+ArrayList<Cart> cartList = new ArrayList<>();
+try{
+	conn = DriverManager.getConnection(dbURL,dbID,dbPassword);
+	String sql = "select userID,no,name,price,orderQnt,count(*) from cart where userID=? group by userID,no,name,price,orderQnt,no";
+	/* String sql = "select * from cart where userID = ? order by num desc"; */
+	pstmt = conn.prepareStatement(sql);
+	pstmt.setString(1,userID);
+	rs = pstmt.executeQuery();
 	
-	<c:otherwise>
-		<table class = "table table-hover table-bordered">
-			<caption>  <h3> 장바구니 </h3> </caption>
-			
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>이름</th>
-					<th>가격</th>
-					<th></th>
-				</tr>
-			</thead>
-			
-			<tbody>
-			<c:forEach items="${sessionScope.User.cart.itemList}" var="item">
-				<tr>
-					<td>${item.no}</td>
-					<td>${item.name}</td>
-					<td>${item.price}</td>
-					<td>
-					<form action="front" method="POST" id="deleteItemForm">
-						<input type="hidden" name="command" value="deleteCart">
-						<input type="hidden" name="no" value="${item.no}">
-						<input type="button" onclick="deleteItemBtn()" value="삭제">
-					</form>
-					</td>
-				</tr>
-			</c:forEach>
-			<%-- 총 금액 
-				: session에서 dto를 가져와서, 그 안에서 cart를 가져와서,
-				  CartBean에 있는 totalPrice method를 이용
-			--%>
-			<%-- <tr>
-				<td colspan="5" align="center">
-					총 금액 : ${sessionScope.User.cart.totalPrice}
-				</td>
-			</tr> --%>
-			</tbody>
-		</table>
-	</c:otherwise>
-</c:choose>
-</body>
+while(rs.next()){
+	Cart cart = new Cart();
+	/* cart.setSeq(rs.getInt("seq")); */
+	cart.setUserID(rs.getString("userID"));
+	cart.setNo(rs.getString("no"));
+	cart.setName(rs.getString("name"));
+	cart.setPrice(rs.getString("price"));
+	cart.setOrderQnt(rs.getInt("count(*)"));
+	cartList.add(cart);
+}
+%>
+
+<!-- cartList에 선택한 상품 담기 -->
+<%for(int i=0; i<cartList.size(); i++){%>
+	<%=cartList.get(i).getNo() %>
+	<%=cartList.get(i).getName() %><br>
+	<%newPrice = cartList.get(i).getPrice(); %>
+	<%=newPrice %>원<br>
+	<%newQnt = cartList.get(i).getOrderQnt(); %>
+	<%=newQnt %>개
+	<a href="<%= request.getContextPath()%>/purchase.jsp?no=<%= cartList.get(i).getNo() %>
+	&name=<%= cartList.get(i).getName() %>
+	&price=<%= cartList.get(i).getPrice() %>" style="float: right;">상품 구매</a><br>
+	
+	<a href="<%= request.getContextPath()%>/cancel.jsp?no=<%= cartList.get(i).getNo() %>" style="float: right;">상품 삭제</a><br><hr>
+	<% total += newQnt * Integer.parseInt(newPrice); %>
+	
+<% }%>
+총액 : <%=total%>원<br><br><br>
+<%
+rs.close();
+pstmt.close();
+conn.close();
+}catch(SQLException e){
+	e.printStackTrace();
+	out.println("err"+e.toString());
+}%>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
 </html>
